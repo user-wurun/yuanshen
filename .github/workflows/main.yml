@@ -6,7 +6,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    
     steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      with:
+        repository: 'Genshin-Impact-Wish-Simulator/Genshin-Impact-Wish-Simulator'
+        token: ${{ secrets.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 }}  # YOUR_PAT是你在GitHub Secrets中设置的访问令牌的名称
+
     - uses: actions/checkout@v3  # Updated to the latest version
       with:
         repository: 'Genshin-Impact-Wish-Simulator/Genshin-Impact-Wish-Simulator'
