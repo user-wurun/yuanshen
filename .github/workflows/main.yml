@@ -1,0 +1,45 @@
+name: Build Node.js Project to EXE
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: 'Genshin-Impact-Wish-Simulator/Genshin-Impact-Wish-Simulator'
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Project
+      run: npm run build
+
+    - name: Copy Static Files
+      run: cp -r .vercel/static ../electron-static/static
+
+    - name: Change Directory to electron-static
+      run: cd ../electron-static
+
+    - name: Install Electron Dependencies
+      run: npm install
+
+    - name: Build Electron App for Current OS
+      run: npm run build
+
+    - name: Build Electron App for Windows
+      run: npm run build-win
+
+    # Optionally, add steps to upload the EXE file as an artifact or to a release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-exe
+        path: electron-static/dist/*.exe
